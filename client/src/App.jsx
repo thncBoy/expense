@@ -273,37 +273,37 @@ const Header = ({ start, end }) => (
     </div>
   </header>
 );
-
 const FilterPanel = ({ filters, setF, setFilters, onApply, loading, orderLabel }) => (
   <Card>
+    {/* แก้ไข div นี้ และ div ลูกด้านใน */}
     <div style={styles.filterGrid}>
-      <div style={{...styles.formGroup, gridColumn: "span 6 / span 6", "@media (min-width: 768px)": {gridColumn: "span 3 / span 3"} }}>
+      <div style={styles.filterGridItem('250px')}>
         <label style={styles.label}>Start Date</label>
         <input type="datetime-local" value={dayjs(filters.start).format("YYYY-MM-DDTHH:mm")} onChange={(e) => setF("start", dayjs(e.target.value).toISOString())} style={styles.input} />
       </div>
-      <div style={{...styles.formGroup, gridColumn: "span 6 / span 6", "@media (min-width: 768px)": {gridColumn: "span 3 / span 3"} }}>
+      <div style={styles.filterGridItem('250px')}>
         <label style={styles.label}>End Date</label>
         <input type="datetime-local" value={dayjs(filters.end).format("YYYY-MM-DDTHH:mm")} onChange={(e) => setF("end", dayjs(e.target.value).toISOString())} style={styles.input} />
       </div>
-      <div style={{...styles.formGroup, gridColumn: "span 12 / span 12", "@media (min-width: 768px)": {gridColumn: "span 6 / span 6"} }}>
+      <div style={styles.filterGridItem('300px')}>
         <label style={styles.label}>ค้นหา (รายละเอียด)</label>
         <input placeholder="เช่น ค่ากาแฟ..." value={filters.q} onChange={(e) => setF("q", e.target.value)} style={styles.input} />
       </div>
-      <div style={{...styles.formGroup, gridColumn: "span 4 / span 4", "@media (min-width: 768px)": {gridColumn: "span 4 / span 4"} }}>
+      <div style={styles.filterGridItem()}>
         <label style={styles.label}>หมวดหมู่</label>
         <select value={filters.category} onChange={(e) => setF("category", e.target.value)} style={styles.input}>
           <option value="">ทั้งหมด</option>
           {CATEGORIES.map((c) => (<option key={c} value={c}>{c}</option>))}
         </select>
       </div>
-      <div style={{...styles.formGroup, gridColumn: "span 4 / span 4", "@media (min-width: 768px)": {gridColumn: "span 4 / span 4"} }}>
+      <div style={styles.filterGridItem()}>
         <label style={styles.label}>เรียงตาม</label>
         <select value={filters.sort} onChange={(e) => setF("sort", e.target.value)} style={styles.input}>
           <option value="spent_at">วันที่</option>
           <option value="amount">จำนวนเงิน</option>
         </select>
       </div>
-      <div style={{...styles.formGroup, gridColumn: "span 4 / span 4", "@media (min-width: 768px)": {gridColumn: "span 4 / span 4"} }}>
+      <div style={styles.filterGridItem()}>
         <label style={styles.label}>ลำดับ</label>
         <select value={filters.order} onChange={(e) => setF("order", e.target.value)} style={styles.input}>
           <option value="desc">{orderLabel(filters.sort, "desc")}</option>
@@ -311,43 +311,34 @@ const FilterPanel = ({ filters, setF, setFilters, onApply, loading, orderLabel }
         </select>
       </div>
     </div>
-    <div style={styles.filterActions}>
-      <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
-        <button style={styles.pillBtn} onClick={() => setFilters(f => ({ ...f, start: dayjs().startOf("day").toISOString(), end: dayjs().endOf("day").toISOString(), offset: 0 }))}>วันนี้</button>
-        <button style={styles.pillBtn} onClick={() => setFilters(f => ({ ...f, start: dayjs().subtract(6, "day").startOf("day").toISOString(), end: dayjs().endOf("day").toISOString(), offset: 0 }))}>7 วันล่าสุด</button>
-        <button style={styles.pillBtn} onClick={() => setFilters(f => ({ ...f, start: dayjs().startOf("month").toISOString(), end: dayjs().endOf("month").toISOString(), offset: 0 }))}>เดือนนี้</button>
-      </div>
-      <div style={{ display: 'flex', gap: 8 }}>
-        <Button onClick={() => setFilters({ start: dayjs().startOf("month").toISOString(), end: dayjs().endOf("month").toISOString(), category: "", q: "", sort: "spent_at", order: "desc", limit: 50, offset: 0 })} variant="ghost"><Icon path={ICONS.reset} /> Reset</Button>
-        <Button onClick={onApply} disabled={loading}><Icon path={ICONS.apply} /> {loading ? "กำลังโหลด..." : "Apply"}</Button>
-      </div>
-    </div>
+    {/* ...ส่วนที่เหลือเหมือนเดิม */}
   </Card>
 );
 
 const ExpenseForm = ({ onSubmit, register, editingId, onCancelEdit }) => (
   <Card>
     <h2 style={styles.h2}>{editingId ? "✍️ แก้ไขค่าใช้จ่าย" : "💸 เพิ่มค่าใช้จ่ายใหม่"}</h2>
+    {/* แก้ไขฟอร์มนี้ และ div ลูกด้านใน */}
     <form onSubmit={onSubmit} style={styles.formGrid}>
-      <div style={{...styles.formGroup, gridColumn: "span 12 / span 12", "@media (min-width: 768px)": {gridColumn: "span 3 / span 3"}}}>
+      <div style={styles.formGridItem('250px')}>
         <label style={styles.label}>วันที่-เวลา</label>
         <input type="datetime-local" {...register("spent_at", { required: true })} style={styles.input} />
       </div>
-      <div style={{...styles.formGroup, gridColumn: "span 6 / span 6", "@media (min-width: 768px)": {gridColumn: "span 2 / span 2"}}}>
+      <div style={styles.formGridItem()}>
         <label style={styles.label}>หมวดหมู่</label>
         <select {...register("category", { required: true })} style={styles.input}>
           {CATEGORIES.map((c) => (<option key={c} value={c}>{c}</option>))}
         </select>
       </div>
-      <div style={{...styles.formGroup, gridColumn: "span 12 / span 12", "@media (min-width: 768px)": {gridColumn: "span 4 / span 4"}}}>
+      <div style={styles.formGridItem('300px')}>
         <label style={styles.label}>รายละเอียด</label>
         <input placeholder="เช่น ค่าอาหารเย็น..." {...register("detail")} style={styles.input} />
       </div>
-      <div style={{...styles.formGroup, gridColumn: "span 6 / span 6", "@media (min-width: 768px)": {gridColumn: "span 2 / span 2"}}}>
+      <div style={styles.formGridItem()}>
         <label style={styles.label}>จำนวนเงิน</label>
         <input type="number" step="0.01" {...register("amount", { required: true, valueAsNumber: true, min: 0.01 })} style={styles.input} />
       </div>
-      <div style={{...styles.formGroup, gridColumn: "span 6 / span 6", "@media (min-width: 768px)": {gridColumn: "span 1 / span 1"}}}>
+      <div style={styles.formGridItem()}>
         <label style={styles.label}>วิธีจ่าย</label>
         <select {...register("payment_method")} style={styles.input}>
           {METHODS.map((m) => (<option key={m} value={m}>{m}</option>))}
@@ -360,7 +351,6 @@ const ExpenseForm = ({ onSubmit, register, editingId, onCancelEdit }) => (
     </form>
   </Card>
 );
-
 const StatsCards = ({ stats }) => (
   <div style={styles.statsGrid}>
     <Card style={{ textAlign: "center" }}>

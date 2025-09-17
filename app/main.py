@@ -12,10 +12,14 @@ app = FastAPI(title="Expense API (Dev)")
 # dev:ถ้ายังไม่มีตาราง  สร้างตารางอัตโนมัติ 
 Base.metadata.create_all(bind=engine)
 
+FE_Origin = [
+    "https://expense-web-tukg.onrender.com",
+    "http://localhost:5173"
+]
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:5173"],  # Vite dev server
+    allow_origins=FE_Origin,  # Vite dev server
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
